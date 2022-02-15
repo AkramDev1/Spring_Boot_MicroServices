@@ -1,0 +1,37 @@
+service:
+  port: 9191
+
+spring:
+  application:
+    name: API-GATEWAY
+  cloud:
+    gatway:
+      routes:
+        - id: customer
+          uri: lb://customer
+          predicates:
+            - Path=/api/customers/**
+#          filters:
+#            - name: CircuitBreaker
+#              args:
+#                name: CUSTOMER
+#                fallbackuri: forword:/userServiceFallBack
+        - id: fraud
+          uri: lb://fraud
+          predicates:
+            - Path=/api/fraud-check/**
+#          filters:
+#            - name: CircuitBreaker
+#                args:
+#                  name: DEPARTEMENT-SERVICE
+#                  fallbackuri: forword:/departementServiceFallBack
+
+
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    fetch-registry: true
+    register-with-eureka: true
